@@ -57,5 +57,5 @@ public class Product {
 	@Column(name="reorder_level")
 	private Integer reorderLevel;
 	
-	private Integer discontinued = 1;
+	private Integer discontinued = 0;
 }

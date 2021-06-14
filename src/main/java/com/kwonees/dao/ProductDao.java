@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kwonees.entity.Category;
 import com.kwonees.entity.Product;
+import com.kwonees.entity.Supplier;
 
 @Transactional(rollbackFor= {DaoException.class}, readOnly=true)
 public interface ProductDao {
@@ -57,5 +59,15 @@ public interface ProductDao {
 	public default long count() throws DaoException {
 		throw new DaoException("Method not implemented");
 	};
+	
+	public default List<Category> getAllCategories() throws DaoException {
+		throw new DaoException("Method not implemented");
+	}
+
+	public default List<Supplier> getAllSuppliers() throws DaoException {
+		throw new DaoException("Method not implemented");
+	}
+	
+	
 
 }

@@ -15,13 +15,21 @@
 			<div class="form-group row">
 				<label class="col-md-4" for="categoryId"> Category</label>
 				<div class="col-md-8">
-					<sf:input path="categoryId" cssClass="form-control" />
+					<sf:select path="category.categoryId" cssClass="form-select">
+						<sf:option value="-1" label="--SELECT--"/>
+						<sf:options items="${categories}" itemLabel="categoryName"
+							itemValue="categoryId" />
+					</sf:select>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label class="col-md-4" for="supplierId"> Supplier</label>
 				<div class="col-md-8">
-					<sf:input path="supplierId" cssClass="form-control" />
+					<sf:select path="supplier.supplierId" cssClass="form-select">
+						<sf:option value="-1" label="--SELECT--"/>
+						<sf:options items="${suppliers}" itemLabel="companyName"
+							itemValue="supplierId" />
+					</sf:select>
 				</div>
 			</div>
 			<div class="form-group row">
@@ -58,8 +66,11 @@
 			<div class="form-group row">
 				<label class="col-md-4" for="discontinued"> Discontinued</label>
 				<div class="col-md-8">
-					<label> <sf:radiobutton path="discontinued" value="1"/> Yes</label>
-					<label> <sf:radiobutton path="discontinued" value="0"/> No</label>
+					<label> <sf:radiobutton path="discontinued" value="1" />
+						Yes
+					</label> <label> <sf:radiobutton path="discontinued" value="0" />
+						No
+					</label>
 				</div>
 			</div>
 			<div class="form-group row">

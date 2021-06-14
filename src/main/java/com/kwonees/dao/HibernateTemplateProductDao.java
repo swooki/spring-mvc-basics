@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kwonees.entity.Category;
 import com.kwonees.entity.Product;
+import com.kwonees.entity.Supplier;
 
 @Repository("htDao")
 @SuppressWarnings("unchecked")
@@ -91,4 +93,17 @@ public class HibernateTemplateProductDao implements ProductDao {
 		return (long) template.findByCriteria(dc).get(0);
 	}
 
+	@Override
+	public List<Category> getAllCategories() throws DaoException {
+		DetachedCriteria dc = DetachedCriteria.forClass(Category.class);
+		return (List<Category>) template.findByCriteria(dc);
+	}
+
+	@Override
+	public List<Supplier> getAllSuppliers() throws DaoException {
+		DetachedCriteria dc = DetachedCriteria.forClass(Supplier.class);
+		return (List<Supplier>) template.findByCriteria(dc);
+	}
+
+	
 }

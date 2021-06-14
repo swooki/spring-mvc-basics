@@ -49,9 +49,10 @@ public class ProductController {
 	@RequestMapping(method = RequestMethod.GET, path = "/add-product")
 	public String addProduct(Model model) throws DaoException {
 		System.out.println("addProduct() called");
-//		Product product = htDao.getProduct(66);
 		Product product = new Product();
 		model.addAttribute("product", product);
+		model.addAttribute("categories", htDao.getAllCategories());
+		model.addAttribute("suppliers", htDao.getAllSuppliers());
 		model.addAttribute("pageTitle", "Add New Product");
 
 		return "product-form";
