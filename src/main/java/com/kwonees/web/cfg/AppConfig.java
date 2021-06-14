@@ -24,7 +24,9 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.kwonees.entity.Category;
 import com.kwonees.entity.Product;
@@ -46,6 +48,12 @@ public class AppConfig implements WebApplicationInitializer,WebMvcConfigurer {
 	private String user;
 	@Value("${jdbc.password}")
 	private String password;
+
+	
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/price-form").setViewName("price-form"); 
+	}
 
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -106,4 +114,13 @@ public class AppConfig implements WebApplicationInitializer,WebMvcConfigurer {
 		return new HibernateTemplate(sessionFactory);
 	}
 
+	@Bean
+	public InternalResourceViewResolver viewResolver() {
+		InternalResourceViewResolver irvr = new InternalResourceViewResolver();
+		
+		irvr.setPrefix("/WEB-INF/pages/");
+		irvr.setSuffix(".jsp");
+		
+		return irvr;
+	}
 }

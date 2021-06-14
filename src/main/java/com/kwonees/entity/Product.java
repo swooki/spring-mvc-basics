@@ -2,6 +2,7 @@ package com.kwonees.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,6 +22,7 @@ import lombok.ToString;
 public class Product {
 	@Id
 	@Column(name="product_id")
+	@GeneratedValue(generator="increment")
 	private Integer productId;
 	
 	@Column(name="product_name")
@@ -55,5 +57,5 @@ public class Product {
 	@Column(name="reorder_level")
 	private Integer reorderLevel;
 	
-	private Integer discontinued;
+	private Integer discontinued = 1;
 }

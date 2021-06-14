@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Spring WEB-MVC Demo</title>
+<title>${pageTitle}</title>
 <link rel="stylesheet" type="text/css"
 	href="./assets/css/bootstrap.min.css">
 </head>
@@ -17,5 +17,10 @@
 	<div class="container">
 	<p>
 	<a href="./" class="btn btn-link">Home</a> | 
-	<a href="./all-products" class="btn btn-link">All Products</a>
+	<a href="./all-products" class="btn btn-link">All Products</a> |
+	<a href="./price-form" class="btn btn-link">Products by price</a> |
+	<a href="./add-product" class="btn btn-link">Add Product</a>
+	
+	
 	</p>
+	

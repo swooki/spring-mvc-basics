@@ -12,7 +12,7 @@ public class DummyController {
 	@RequestMapping("/dummy")
 	public String sayHello() {
 		System.out.println("DummyController.sayHello() called");
-		return "/WEB-INF/pages/dummy.jsp";
+		return "dummy";
 	}
 
 }

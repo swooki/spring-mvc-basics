@@ -12,15 +12,16 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${products}" var="p" varStatus="status">
-		<tr>
-			<td>${status.index+1}</td>
-			<td>${p.productName}</td>
-			<td>${p.unitPrice}</td>
-			<td>${p.quantityPerUnit}</td>
-		</tr>
-		
+			<tr>
+				<td>${status.index+1}</td>
+				<td>
+				<a href="./product-details?id=${p.productId}" class="btn btn-link">${p.productName}</a>
+				</td>  
+				<td>${p.unitPrice}</td>
+				<td>${p.quantityPerUnit}</td>
+			</tr>
+
 		</c:forEach>
 	</tbody>
 </table>
-
 <%@ include file="./footer.jspf"%>
