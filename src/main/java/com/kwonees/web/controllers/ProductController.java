@@ -1,15 +1,22 @@
 package com.kwonees.web.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kwonees.dao.DaoException;
 import com.kwonees.dao.ProductDao;
+import com.kwonees.entity.Category;
 import com.kwonees.entity.Product;
+import com.kwonees.entity.Supplier;
+import com.kwonees.validators.ProductValidator;
 
 @Controller
 public class ProductController {
@@ -58,10 +65,28 @@ public class ProductController {
 		return "product-form";
 	}
 
+	@ModelAttribute("categories")
+	public List<Category> getCategoryList() throws DaoException {
+		return htDao.getAllCategories();
+	}
+
+	@ModelAttribute("suppliers")
+	public List<Supplier> getSupplyList() throws DaoException {
+		return htDao.getAllSuppliers();
+	}
+
 	@RequestMapping(method = RequestMethod.POST, path = "/save-product")
-	public String saveProduct(Model model, Product product) throws DaoException {
-		System.out.println("saveProduct() called");
-		htDao.addProduct(product); 
+	public String saveProduct(@ModelAttribute("product") Product product, BindingResult errors) throws DaoException {
+
+		ProductValidator pv = new ProductValidator();
+		pv.validate(product, errors);
+		
+		
+		if (errors.hasErrors()) {
+			return "product-form";
+		}
+
+		htDao.addProduct(product);
 		return "redirect:product-details?id=" + product.getProductId();
 	}
 }

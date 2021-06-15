@@ -10,11 +10,14 @@ import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -37,9 +40,9 @@ import com.kwonees.entity.Supplier;
 @PropertySource("classpath:jdbc.properties")
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages={"com.kwonees.dao", "com.kwonees.aspects", "com.kwonees.web.controllers"})
-public class AppConfig implements WebApplicationInitializer,WebMvcConfigurer {
-	
+@ComponentScan(basePackages = { "com.kwonees.dao", "com.kwonees.aspects", "com.kwonees.web.controllers" })
+public class AppConfig implements WebApplicationInitializer, WebMvcConfigurer {
+
 	@Value("${jdbc.driver}")
 	private String driverClassName;
 	@Value("${jdbc.url}")
@@ -49,10 +52,9 @@ public class AppConfig implements WebApplicationInitializer,WebMvcConfigurer {
 	@Value("${jdbc.password}")
 	private String password;
 
-	
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/price-form").setViewName("price-form"); 
+		registry.addViewController("/price-form").setViewName("price-form");
 	}
 
 	@Override
@@ -65,7 +67,7 @@ public class AppConfig implements WebApplicationInitializer,WebMvcConfigurer {
 		AnnotationConfigWebApplicationContext ctx;
 		ctx = new AnnotationConfigWebApplicationContext();
 		ctx.register(AppConfig.class);
-		
+
 		Dynamic servlet = servletContext.addServlet("ds", new DispatcherServlet(ctx));
 		servlet.addMapping("/");
 		servlet.setLoadOnStartup(1);
@@ -92,6 +94,7 @@ public class AppConfig implements WebApplicationInitializer,WebMvcConfigurer {
 
 		return bds;
 	}
+
 	@Bean
 	public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
 		LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
@@ -117,10 +120,25 @@ public class AppConfig implements WebApplicationInitializer,WebMvcConfigurer {
 	@Bean
 	public InternalResourceViewResolver viewResolver() {
 		InternalResourceViewResolver irvr = new InternalResourceViewResolver();
-		
+
 		irvr.setPrefix("/WEB-INF/pages/");
 		irvr.setSuffix(".jsp");
-		
+
 		return irvr;
+	}
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertySourcePlaceholderConfigurer() {
+		return new PropertySourcesPlaceholderConfigurer(); 
+	}
+	  
+	
+	@Bean
+	public MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource src = new ReloadableResourceBundleMessageSource();
+		src.setBasename("classpath:error-messages");
+		src.setDefaultEncoding("UTF-8");
+		
+		
+		return src;
 	}
 }
