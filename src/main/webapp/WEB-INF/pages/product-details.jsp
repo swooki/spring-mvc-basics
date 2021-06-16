@@ -1,5 +1,6 @@
 <%@ include file="./header.jspf"%>
 <h2>${pageTitle}</h2>
+<a href="./edit-product?id=${product.productId}" class="btn btn-primary">Edit</a>
 <div class="row">
 	<div class="col">
 		<table class="table table-bordered table-striped">
@@ -9,7 +10,7 @@
 					<td>${product.productId}</td>
 				</tr>
 				<tr>
-					<td>Name</td>
+					<td>Name</td> 
 					<td>${product.productName}</td>
 				</tr>
 				<tr>

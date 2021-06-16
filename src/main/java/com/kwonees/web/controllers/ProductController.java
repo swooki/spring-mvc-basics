@@ -1,3 +1,4 @@
+
 package com.kwonees.web.controllers;
 
 import java.util.List;
@@ -6,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +20,8 @@ import com.kwonees.entity.Product;
 import com.kwonees.entity.Supplier;
 import com.kwonees.validators.ProductValidator;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Controller
 public class ProductController {
 	@Autowired
@@ -46,7 +50,6 @@ public class ProductController {
 
 	@RequestMapping(method = RequestMethod.GET, path = "/product-details")
 	public String getProductDetails(Model model, @RequestParam Integer id) throws DaoException {
-		System.out.println("getProduct() called");
 		model.addAttribute("product", htDao.getProduct(id));
 		model.addAttribute("pageTitle", "Products Details - " + id);
 
@@ -55,12 +58,17 @@ public class ProductController {
 
 	@RequestMapping(method = RequestMethod.GET, path = "/add-product")
 	public String addProduct(Model model) throws DaoException {
-		System.out.println("addProduct() called");
 		Product product = new Product();
 		model.addAttribute("product", product);
-		model.addAttribute("categories", htDao.getAllCategories());
-		model.addAttribute("suppliers", htDao.getAllSuppliers());
 		model.addAttribute("pageTitle", "Add New Product");
+
+		return "product-form";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = "/edit-product")
+	public String editProduct(Model model, @RequestParam Integer id) throws DaoException {
+		model.addAttribute("product", htDao.getProduct(id));
+		model.addAttribute("pageTitle", "Edit Product");
 
 		return "product-form";
 	}
@@ -80,13 +88,24 @@ public class ProductController {
 
 		ProductValidator pv = new ProductValidator();
 		pv.validate(product, errors);
-		
-		
-		if (errors.hasErrors()) {
+
+	 	if (errors.hasErrors())  {
 			return "product-form";
 		}
+ 
+		if (product.getProductId() == null) {
+			htDao.addProduct(product);
+		} else {
+			htDao.updateProduct(product);
+		}
 
-		htDao.addProduct(product);
 		return "redirect:product-details?id=" + product.getProductId();
 	}
+	@ExceptionHandler(Exception.class)
+	public String errorHandler(Exception ex, Model model) {
+		log.error(ex.getLocalizedMessage());
+		model.addAttribute("ex", ex);
+		return "err"; 
+	}
+	
 }

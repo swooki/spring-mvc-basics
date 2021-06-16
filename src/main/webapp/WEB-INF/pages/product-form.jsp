@@ -6,6 +6,7 @@
 <div class="row">
 	<div class="col">
 		<sf:form modelAttribute="product" action="save-product">
+			<sf:hidden path="productId"/>
 			<div class="form-group row">
 				<label class="col-md-4" for="productName"> Product Name</label>
 				<div class="col-md-8">
