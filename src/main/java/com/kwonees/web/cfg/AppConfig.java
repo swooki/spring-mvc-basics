@@ -40,7 +40,7 @@ import com.kwonees.entity.Supplier;
 @PropertySource("classpath:jdbc.properties")
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "com.kwonees.dao", "com.kwonees.aspects", "com.kwonees.web.controllers" })
+@ComponentScan(basePackages = { "com.kwonees.dao", "com.kwonees.aspects", "com.kwonees.web" })
 public class AppConfig implements WebApplicationInitializer, WebMvcConfigurer {
 
 	@Value("${jdbc.driver}")

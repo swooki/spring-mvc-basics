@@ -1,5 +1,6 @@
 package com.kwonees.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,12 +8,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table (name="products")
 @NoArgsConstructor
@@ -29,16 +38,20 @@ public class Product {
 	private String productName;
 	
 	@Column(name="supplier_id", insertable=false, updatable=false)
+	@JsonIgnore
+	@XmlTransient
 	private Integer supplierId;
 	
-	@ManyToOne
+	@ManyToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name="supplier_id")
 	private Supplier supplier;
 	
 	@Column(name="category_id", insertable=false, updatable=false)
+	@JsonIgnore
+	@XmlTransient
 	private Integer categoryId;
 	
-	@ManyToOne
+	@ManyToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name="category_id")
 	private Category category;
 	
